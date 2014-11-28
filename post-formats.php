@@ -144,8 +144,10 @@
 					$format    = ( empty( $format ) ) ? ( get_post_format( $post_id ) ) : ( $format );
 					$meta_name = apply_filters( 'wmhook_wm_post_format_media_meta_name', 'post_format_media' );
 
+					$supported_formats = apply_filters( 'wmhook_wm_post_format_media_formats', array( 'audio', 'gallery', 'image', 'video' ) );
+
 					//Requirements check
-						if ( ! in_array( $format, apply_filters( 'wmhook_wm_post_format_media_formats', array( 'audio', 'gallery', 'image', 'video' ) ) ) ) {
+						if ( ! in_array( $format, $supported_formats ) ) {
 							return;
 						}
 
