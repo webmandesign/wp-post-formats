@@ -22,7 +22,7 @@ Media generated from post content for supported post formats:
 ### Image post format
 
 *Only if NO featured image set:*
-* ID of the first image in post content (for uploaded images, and only if `wm_get_image_id_from_url()` function exists)
+* ID of the first image in post content (for uploaded images)
 * or URL of the first image in post content
 
 ### Video post format

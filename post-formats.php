@@ -25,8 +25,7 @@
  *
  *   Image post format
  *   (Only if no featured image set:)
- *   - ID of the first image in post content (for uploaded images, and only
- *     if `wm_get_image_id_from_url()` function exists)
+ *   - ID of the first image in post content (for uploaded images)
  *   - or URL of the first image in post content
  *
  *   Video post format
@@ -68,8 +67,9 @@
  *
  *
  * CONTENT:
- * -  10) Actions and filters
- * -  20) Post formats media functions
+ * - 10) Actions and filters
+ * - 20) Post formats media functions
+ * - 30) Image IDs caching
  */
 
 
@@ -86,6 +86,8 @@
 
 		//Generate post format media meta field on post save
 			add_action( 'save_post', 'wm_post_format_media' );
+		//Flushing transients
+			add_action( 'switch_theme', 'wm_image_ids_transient_flusher' );
 
 
 
@@ -387,7 +389,7 @@
 			 *
 			 * @param  int $post_id
 			 *
-			 * @return  Image ID (for uploaded image, if wm_get_image_id_from_url() function exists) or image URL.
+			 * @return  Image ID (for uploaded image) or image URL.
 			 */
 			if ( ! function_exists( 'wm_get_post_media_image' ) ) {
 				function wm_get_post_media_image( $post_id ) {
@@ -422,10 +424,7 @@
 							}
 
 						//Get the image ID if the image is uploaded, otherwise output the URL
-							if (
-									function_exists( 'wm_get_image_id_from_url' )
-									&& ( $image_id = wm_get_image_id_from_url( $output ) )
-								) {
+							if ( $image_id = wm_get_image_id_from_url( $output ) ) {
 								$output = $image_id;
 							}
 
@@ -433,5 +432,70 @@
 						return apply_filters( 'wmhook_wm_get_post_media_image_output', $output, $post_id );
 				}
 			} // /wm_get_post_media_image
+
+
+
+
+
+/**
+ * 30) Image IDs caching
+ */
+
+	/**
+	 * Get image ID from its URL
+	 *
+	 * @link   http://pippinsplugins.com/retrieve-attachment-id-from-image-url/
+	 * @link   http://make.wordpress.org/core/2012/12/12/php-warning-missing-argument-2-for-wpdb-prepare/
+	 *
+	 * @param  string $url
+	 */
+	if ( ! function_exists( 'wm_get_image_id_from_url' ) ) {
+		function wm_get_image_id_from_url( $url ) {
+			//Helper variables
+				global $wpdb;
+
+				$output = null;
+				$cache  = array_filter( (array) get_transient( 'wm-image-ids' ) );
+
+			//Returne cached result if found and relevant
+				if (
+						! empty( $cache )
+						&& isset( $cache[ $url ] )
+						&& wp_get_attachment_url( absint( $cache[ $url ] ) )
+						&& $url == wp_get_attachment_url( absint( $cache[ $url ] ) )
+					) {
+					return absint( apply_filters( 'wmhook_wm_get_image_id_from_url_output', $cache[ $url ] ) );
+				}
+
+			//Preparing output
+				if (
+						is_object( $wpdb )
+						&& isset( $wpdb->prefix )
+					) {
+					$prefix     = $wpdb->prefix;
+					$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM " . $prefix . "posts" . " WHERE guid = %s", esc_url( $url ) ) );
+					$output     = ( isset( $attachment[0] ) ) ? ( $attachment[0] ) : ( null );
+				}
+
+				//Cache the new record
+					$cache[ $url ] = $output;
+
+					set_transient( 'wm-image-ids', array_filter( (array) $cache ) );
+
+			//Output
+				return absint( apply_filters( 'wmhook_wm_get_image_id_from_url_output', $output ) );
+		}
+	} // /wm_get_image_id_from_url
+
+
+
+		/**
+		 * Flush out the transients used in wm_get_image_id_from_url
+		 */
+		if ( ! function_exists( 'wm_image_ids_transient_flusher' ) ) {
+			function wm_image_ids_transient_flusher() {
+				delete_transient( 'wm-image-ids' );
+			}
+		} // /wm_image_ids_transient_flusher
 
 ?>
