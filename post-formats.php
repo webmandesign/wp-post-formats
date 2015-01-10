@@ -169,7 +169,7 @@
 								$output = get_post_meta( $post_id, '_' . $meta_name, true );
 							}
 						//Premature output filtering
-							$output = apply_filters( 'wmhook_wm_post_format_media_output_premature', $output, $post_id, $format );
+							$output = apply_filters( 'wmhook_wm_post_format_media_output_pre', $output, $post_id, $format );
 
 						//Force refresh (regenerate and resave) the post media meta field
 							if (
