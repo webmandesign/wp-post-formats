@@ -2,8 +2,11 @@
 /**
  * Get post formats media
  *
- * @package  YOUR_PACKAGE_NAME
- * @version  YOUR_PACKAGE_UPDATE_VERSION
+ * @package    ___THEME_NAME
+ * @copyright  2015 WebMan - Oliver Juhas
+ *
+ * @since    ___SINCE
+ * @version  ___VERSION
  */
 
 
@@ -15,7 +18,7 @@
 	 *
 	 * @copyright  2015 WebMan - Oliver Juhas
 	 * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
-	 * @version    1.0
+	 * @version    1.1
 	 *
 	 * @link  https://github.com/webmandesign/wp-post-formats
 	 * @link  http://www.webmandesign.eu
@@ -146,7 +149,11 @@
 						if ( empty( $post_id ) ) {
 							$post_id = get_the_ID();
 						}
-						if ( empty( $post_id ) ) {
+						if (
+								empty( $post_id )
+								//Exit early for no-post_format post types
+								|| ( isset( $_REQUEST ) && ! isset( $_REQUEST['post_format'] ) )
+							) {
 							return false;
 						}
 
