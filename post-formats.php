@@ -152,7 +152,7 @@
 						if (
 								empty( $post_id )
 								//Exit early for no-post_format post types
-								|| ( isset( $_REQUEST ) && ! isset( $_REQUEST['post_format'] ) )
+								|| ( is_admin() && isset( $_REQUEST ) && ! isset( $_REQUEST['post_format'] ) )
 							) {
 							return false;
 						}
