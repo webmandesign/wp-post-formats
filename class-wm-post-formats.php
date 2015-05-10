@@ -22,6 +22,10 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 	 *
 	 * WordPress audio, gallery, image and video post format media generator.
 	 *
+	 * Custom hooks naming convention:
+	 * - `wmhook_` - global (and other, such as plugins related) hooks
+	 * - `wmhook_wmpf_` - WM_Post_Formats class specific hooks
+	 *
 	 * @copyright  2015 WebMan - Oliver Juhas
 	 * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
 	 *
