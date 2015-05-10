@@ -32,7 +32,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 	 * @link  https://github.com/webmandesign/wp-post-formats
 	 * @link  http://www.webmandesign.eu
 	 *
-	 * @version    2.0
+	 * @version  2.1
 	 *
 	 *
 	 * GENERATED MEDIA
@@ -121,7 +121,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 			 * Class initialization
 			 *
 			 * @since    1.0
-			 * @version  2.0
+			 * @version  2.1
 			 */
 			static public function init() {
 
@@ -137,7 +137,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 						//Flushing transients
 
-							if ( class_exists( 'WM_Theme_Framework' ) ) {
+							if ( is_callable( 'WM_Theme_Framework::image_ids_transient_flusher' ) ) {
 								add_action( 'switch_theme', 'WM_Theme_Framework::image_ids_transient_flusher' );
 							}
 
