@@ -80,7 +80,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 	 *
 	 * Then, use this code in your `content-audio.php` file (for example):
 	 *
-	 *   $post_format_media = wm_get_post_format_media();
+	 *   $post_format_media = (string) WM_Post_Formats::get();
 	 *   if ( 0 === strpos( $post_format_media, '[' ) ) {
 	 *     $post_format_media = do_shortcode( $post_format_media );
 	 *   } else {
