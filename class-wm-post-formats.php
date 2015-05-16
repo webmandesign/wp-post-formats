@@ -2,11 +2,11 @@
 /**
  * Get post formats media
  *
- * @package    ___THEME_NAME
+ * @package    {%= theme_name %}
  * @copyright  2015 WebMan - Oliver Juhas
  *
- * @since    ___SINCE
- * @version  ___VERSION
+ * @since    {%= version_since %}
+ * @version  {%= version %}
  */
 
 
@@ -78,14 +78,18 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 	 *
 	 *   get_template_part( 'post-formats' );
 	 *
-	 * Then, use this code in your `content-audio.php` file (for example):
+	 * Then, use this code in your `content-audio.php` file:
+	 *
+	 * @example
 	 *
 	 *   $post_format_media = (string) WM_Post_Formats::get();
+	 *
 	 *   if ( 0 === strpos( $post_format_media, '[' ) ) {
 	 *     $post_format_media = do_shortcode( $post_format_media );
 	 *   } else {
 	 *     $post_format_media = wp_oembed_get( $post_format_media );
 	 *   }
+	 *
 	 *   echo $post_format_media;
 	 *
 	 *
