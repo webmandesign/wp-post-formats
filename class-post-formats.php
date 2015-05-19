@@ -100,6 +100,13 @@ if ( ! class_exists( '{%= prefix_class %}_Post_Formats' ) ) {
 	 *
 	 * @link  http://codex.wordpress.org/Post_Formats#Adding_Theme_Support
 	 * @link  http://codex.wordpress.org/Post_Formats
+	 *
+	 * Used development prefixes:
+	 * - theme_name
+	 * - version_since
+	 * - version
+	 * - prefix_class
+	 * - prefix_hook
 	 */
 	final class {%= prefix_class %}_Post_Formats {
 
