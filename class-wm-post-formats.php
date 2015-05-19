@@ -13,9 +13,9 @@
 
 
 
-if ( ! class_exists( 'WM_Post_Formats' ) ) {
+if ( ! class_exists( '{%= prefix_class %}_Post_Formats' ) ) {
 
-	add_action( 'after_setup_theme', 'WM_Post_Formats::init' );
+	add_action( 'after_setup_theme', '{%= prefix_class %}_Post_Formats::init' );
 
 	/**
 	 * Post formats media
@@ -24,7 +24,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 	 *
 	 * Custom hooks naming convention:
 	 * - `wmhook_` - global (and other, such as plugins related) hooks
-	 * - `wmhook_wmpf_` - WM_Post_Formats class specific hooks
+	 * - `wmhook_{%= prefix_hook %}_pf_` - {%= prefix_class %}_Post_Formats class specific hooks
 	 *
 	 * @copyright  2015 WebMan - Oliver Juhas
 	 * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
@@ -32,7 +32,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 	 * @link  https://github.com/webmandesign/wp-post-formats
 	 * @link  http://www.webmandesign.eu
 	 *
-	 * @version  2.1
+	 * @version  2.2
 	 *
 	 *
 	 * GENERATED MEDIA
@@ -82,7 +82,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 	 *
 	 * @example
 	 *
-	 *   $post_format_media = (string) WM_Post_Formats::get();
+	 *   $post_format_media = (string) {%= prefix_class %}_Post_Formats::get();
 	 *
 	 *   if ( 0 === strpos( $post_format_media, '[' ) ) {
 	 *     $post_format_media = do_shortcode( $post_format_media );
@@ -102,7 +102,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 	 * @link  http://codex.wordpress.org/Post_Formats#Adding_Theme_Support
 	 * @link  http://codex.wordpress.org/Post_Formats
 	 */
-	final class WM_Post_Formats {
+	final class {%= prefix_class %}_Post_Formats {
 
 		/**
 		 * Contents:
@@ -137,12 +137,12 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 						//Generate post format media meta field on post save
 
-							add_action( 'save_post', 'WM_Post_Formats::format_media' );
+							add_action( 'save_post', '{%= prefix_class %}_Post_Formats::format_media' );
 
 						//Flushing transients
 
-							if ( is_callable( 'WM_Theme_Framework::image_ids_transient_flusher' ) ) {
-								add_action( 'switch_theme', 'WM_Theme_Framework::image_ids_transient_flusher' );
+							if ( is_callable( '{%= prefix_class %}_Theme_Framework::image_ids_transient_flusher' ) ) {
+								add_action( 'switch_theme', '{%= prefix_class %}_Theme_Framework::image_ids_transient_flusher' );
 							}
 
 			} // /init
@@ -170,7 +170,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmpf_get_pre', false, $format );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_pf_get_pre', false, $format );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -218,7 +218,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmpf_format_media_pre', false, $post_id, $format );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_pf_format_media_pre', false, $post_id, $format );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -243,9 +243,9 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 					$post_id   = absint( $post_id );
 					$format    = ( empty( $format ) ) ? ( get_post_format( $post_id ) ) : ( $format );
-					$meta_name = apply_filters( 'wmhook_wmpf_format_media_meta_name', 'post_format_media' );
+					$meta_name = apply_filters( 'wmhook_{%= prefix_hook %}_pf_format_media_meta_name', 'post_format_media' );
 
-					$supported_formats = apply_filters( 'wmhook_wmpf_format_media_formats', array( 'audio', 'gallery', 'image', 'video' ) );
+					$supported_formats = apply_filters( 'wmhook_{%= prefix_hook %}_pf_format_media_formats', array( 'audio', 'gallery', 'image', 'video' ) );
 
 					//Requirements check
 
@@ -265,13 +265,13 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 					//Premature output filtering
 
-						$output = apply_filters( 'wmhook_wmpf_format_media_output_pre', $output, $post_id, $format );
+						$output = apply_filters( 'wmhook_{%= prefix_hook %}_pf_format_media_output_pre', $output, $post_id, $format );
 
 					//Force refresh (regenerate and resave) the post media meta field
 
 						if (
 								//When forced by hook
-								apply_filters( 'wmhook_wmpf_format_media_force_refresh', false, $post_id, $format )
+								apply_filters( 'wmhook_{%= prefix_hook %}_pf_format_media_force_refresh', false, $post_id, $format )
 								//When no media saved
 								|| empty( $output )
 								//When saving post (no need for checking nonce as this can be triggered anywhere...)
@@ -291,7 +291,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 					//Return if we have output
 
 						if ( $output ) {
-							return apply_filters( 'wmhook_wmpf_format_media_output', $output, $post_id, $format );
+							return apply_filters( 'wmhook_{%= prefix_hook %}_pf_format_media_output', $output, $post_id, $format );
 						}
 
 
@@ -327,7 +327,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 						//Filter the output
 
-							$output = apply_filters( 'wmhook_wmpf_format_media_output', $output, $post_id, $format );
+							$output = apply_filters( 'wmhook_{%= prefix_hook %}_pf_format_media_output', $output, $post_id, $format );
 
 						//Save the post media meta field
 
@@ -335,7 +335,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 						//Custom action hook
 
-							do_action( 'wmhook_wmpf_format_media', $output, $post_id, $format, $meta_name );
+							do_action( 'wmhook_{%= prefix_hook %}_pf_format_media', $output, $post_id, $format, $meta_name );
 
 
 				//Output
@@ -368,7 +368,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmpf_get_media_audio_video_pre', false, $post_id );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_pf_get_media_audio_video_pre', false, $post_id );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -469,7 +469,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmpf_get_media_gallery_pre', false, $post_id );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_pf_get_media_gallery_pre', false, $post_id );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -522,7 +522,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 						} else {
 
-							$output = implode( ',', array_keys( (array) get_children( apply_filters( 'wmhook_wmpf_get_media_gallery_get_children_args', array(
+							$output = implode( ',', array_keys( (array) get_children( apply_filters( 'wmhook_{%= prefix_hook %}_pf_get_media_gallery_get_children_args', array(
 									'post_parent'    => $post_id,
 									'post_status'    => 'inherit',
 									'post_type'      => 'attachment',
@@ -564,7 +564,7 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 
 				//Pre
 
-					$pre = apply_filters( 'wmhook_wmpf_get_media_image_pre', false, $post_id );
+					$pre = apply_filters( 'wmhook_{%= prefix_hook %}_pf_get_media_image_pre', false, $post_id );
 
 					if ( false !== $pre ) {
 						return $pre;
@@ -609,8 +609,8 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 					//Get the image ID if the image is uploaded, otherwise output the URL
 
 						if (
-								class_exists( 'WM_Theme_Framework' )
-								&& ( $image_id = WM_Theme_Framework::get_image_id_from_url( $output ) )
+								class_exists( '{%= prefix_class %}_Theme_Framework' )
+								&& ( $image_id = {%= prefix_class %}_Theme_Framework::get_image_id_from_url( $output ) )
 							) {
 							$output = $image_id;
 						}
@@ -623,4 +623,4 @@ if ( ! class_exists( 'WM_Post_Formats' ) ) {
 			} // /get_media_image
 
 	}
-} // /WM_Post_Formats
+} // /{%= prefix_class %}_Post_Formats
