@@ -31,7 +31,7 @@ if ( ! class_exists( '{%= prefix_class %}_Post_Formats' ) ) {
 	 * @link  https://github.com/webmandesign/wp-post-formats
 	 * @link  http://www.webmandesign.eu
 	 *
-	 * @version  2.2
+	 * @version  2.2.1
 	 *
 	 *
 	 * GENERATED MEDIA
