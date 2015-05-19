@@ -75,7 +75,7 @@ if ( ! class_exists( '{%= prefix_class %}_Post_Formats' ) ) {
 	 * Copy this file into your WordPress theme's root directory and inlcude
 	 * it in your theme's `funstions.php` file like so:
 	 *
-	 *   get_template_part( 'post-formats' );
+	 *   get_template_part( 'class-post-formats' );
 	 *
 	 * Then, use this code in your `content-audio.php` file:
 	 *
