@@ -10,7 +10,7 @@
  * - prefix_hook
  *
  * @package    {%= theme_name %}
- * @copyright  2015 WebMan - Oliver Juhas
+ * @copyright  2015 WebMan Design, Oliver Juhas
  *
  * @since    {%= version_since %}
  * @version  {%= version %}
@@ -28,7 +28,7 @@
  * Custom hooks naming convention:
  * - `wmhook_{%= prefix_hook %}_pf_` - {%= prefix_class %}_Post_Formats class specific hooks
  *
- * @copyright  2015 WebMan - Oliver Juhas
+ * @copyright  2015 WebMan Design, Oliver Juhas
  * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
  *
  * @link  https://github.com/webmandesign/wp-post-formats
