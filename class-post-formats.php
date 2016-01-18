@@ -28,8 +28,8 @@
  * Custom hooks naming convention:
  * - `wmhook_{%= prefix_hook %}_pf_` - {%= prefix_class %}_Post_Formats class specific hooks
  *
- * @copyright  2015 WebMan Design, Oliver Juhas
- * @license    GPL-2.0+, http://www.gnu.org/licenses/gpl-2.0.html
+ * @copyright  WebMan Design, Oliver Juhas
+ * @license    GPL-3.0, http://www.gnu.org/licenses/gpl-3.0.html
  *
  * @link  https://github.com/webmandesign/wp-post-formats
  * @link  http://www.webmandesign.eu
