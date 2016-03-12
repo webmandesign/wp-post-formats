@@ -34,7 +34,7 @@
  * @link  https://github.com/webmandesign/wp-post-formats
  * @link  http://www.webmandesign.eu
  *
- * @version  2.3
+ * @version  2.4
  *
  *
  * GENERATED MEDIA
@@ -129,23 +129,23 @@ final class {%= prefix_class %}_Post_Formats {
 		 * Constructor
 		 *
 		 * @since    2.3
-		 * @version  2.3
+		 * @version  2.4
 		 */
 		private function __construct() {
 
 			// Processing
 
-				/**
-				 * Hooks
-				 */
+				// Actions
 
-					/**
-					 * Actions
-					 */
+					// Generate post format media meta field on post save
 
-						// Generate post format media meta field on post save
+						add_action( 'save_post', array( $this, 'format_media' ) );
 
-							add_action( 'save_post', array( $this, 'format_media' ) );
+				// Filters
+
+					// Fix SSL URLs
+
+						add_filter( 'wmhook_{%= prefix_hook %}_pf_format_media_output', array( $this, 'fix_ssl_urls' ), 9999 );
 
 		} // /__construct
 
@@ -376,6 +376,31 @@ final class {%= prefix_class %}_Post_Formats {
 	/**
 	 * 100) Helpers
 	 */
+
+		/**
+		 * Fixing URLs in `is_ssl()` returns TRUE
+		 *
+		 * @since    2.4
+		 * @version  2.4
+		 *
+		 * @param  string $content
+		 */
+		static public function fix_ssl_urls( $content ) {
+
+			// Processing
+
+				if ( is_ssl() ) {
+					$content = str_ireplace( 'http:', 'https:', $content );
+				}
+
+
+			// Output
+
+				return $content;
+
+		} // /fix_ssl_urls
+
+
 
 		/**
 		 * Get the post format media: audio, video
