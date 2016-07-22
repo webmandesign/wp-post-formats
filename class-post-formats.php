@@ -34,7 +34,7 @@
  * @link  https://github.com/webmandesign/wp-post-formats
  * @link  http://www.webmandesign.eu
  *
- * @version  2.4
+ * @version  2.5
  *
  *
  * GENERATED MEDIA
@@ -408,7 +408,7 @@ final class {%= prefix_class %}_Post_Formats {
 		 * Searches for media shortcode or URL in the post content.
 		 *
 		 * @since    1.0
-		 * @version  2.0
+		 * @version  2.5
 		 *
 		 * @param  int $post_id
 		 *
@@ -454,7 +454,7 @@ final class {%= prefix_class %}_Post_Formats {
 
 					$pattern = '/\[(' . $pattern . ')(.*)\]/u';
 
-					preg_match( $pattern, strip_tags( $content ), $matches );
+					preg_match( $pattern, wp_strip_all_tags( $content ), $matches );
 
 					if ( isset( $matches[0] ) ) {
 
@@ -476,7 +476,7 @@ final class {%= prefix_class %}_Post_Formats {
 
 							$pattern = '/(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/';
 
-							preg_match_all( $pattern, strip_tags( $content ), $matches );
+							preg_match_all( $pattern, wp_strip_all_tags( $content ), $matches );
 
 						// Return only the first URL which is actually oembed one
 
@@ -509,7 +509,7 @@ final class {%= prefix_class %}_Post_Formats {
 		 * or get images attached to the post.
 		 *
 		 * @since    1.0
-		 * @version  2.0
+		 * @version  2.5
 		 *
 		 * @param  int $post_id
 		 *
@@ -554,7 +554,7 @@ final class {%= prefix_class %}_Post_Formats {
 
 					$pattern = '/\[gallery(.*)\]/u';
 
-					preg_match( $pattern, strip_tags( $content ), $matches );
+					preg_match( $pattern, wp_strip_all_tags( $content ), $matches );
 
 					// Get [gallery] shortcode parameters only
 
