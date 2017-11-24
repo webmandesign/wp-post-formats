@@ -138,15 +138,11 @@ class {%= prefix_class %}_Post_Formats {
 
 				// Actions
 
-					// Generate post format media meta field on post save
-
-						add_action( 'save_post', __CLASS__ . '::format_media' );
+					add_action( 'save_post', __CLASS__ . '::format_media' );
 
 				// Filters
 
-					// Fix SSL URLs
-
-						add_filter( 'wmhook_{%= prefix_hook %}_pf_format_media_output', __CLASS__ . '::fix_ssl_urls', 9999 );
+					add_filter( 'wmhook_{%= prefix_hook %}_pf_format_media_output', __CLASS__ . '::fix_ssl_urls', 9999 );
 
 		} // /__construct
 

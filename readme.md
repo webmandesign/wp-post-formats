@@ -3,50 +3,53 @@
 **WordPress audio, gallery, image and video post format media generator.**
 
 * **License**: GPL-2.0+
-* **Copyright**: 2014 WebMan - Oliver Juhas, http://www.webmandesign.eu
+* **Copyright**: WebMan Design, Oliver Juhas, https://www.webmandesign.eu
+
 
 ## Generated media
 
 Media generated from post content for supported post formats:
 
-### Audio post format
 
-* first `[audio]` or `[playlist]` shortcode
-* or first embed media URL
+**Audio post format**
 
-### Gallery post format
+* the first `[audio]` or `[playlist]` shortcode found,
+* or the first embed media URL.
 
-* coma separeted string of image IDs from first `[gallery]` shortcode
-* or coma separated string of attached images IDs
 
-### Image post format
+**Gallery post format**
 
-*Only if NO featured image set:*
-* ID of the first image in post content (for uploaded images)
-* or URL of the first image in post content
+* string of coma separated list of image IDs from the first `[gallery]` shortcode found.
 
-### Video post format
 
-* first `[video]`, `[playlist]` or `[wpvideo]` shortcode
-* or first embed media URL
+**Image post format**
+
+* ID of the first image found in the post content,
+* or just the URL of that image, if it is not found in media library.
+
+
+**Video post format**
+
+* the first `[video]`, `[playlist]` or `[wpvideo]` shortcode found,
+* or the first embed media URL.
+
 
 ## Custom meta fields
 
-If no media saved in custom meta field, these functions will attempt to generate the media and save them in a hidden custom meta field.
+If no media saved in custom meta field, this script will attempt to generate the media and save them in a hidden custom meta field for the specific post. Regeneration of the custom field also occurs on every post save or update action.
 
-Also, regeneration occurs on every post saving or update.
+You can override the generated media by setting a `post_format_media` custom meta field for the specific post (http://codex.wordpress.org/Custom_Fields).
 
-You can override the generated media with a custom `post_format_media` custom meta field setup (http://codex.wordpress.org/Custom_Fields).
 
-## Implementation
+## Implementation example
 
-Copy this file into your WordPress theme's root directory and inlcude it in your theme's `funstions.php` file like so:
+Copy the `class-post-formats.php` file into your WordPress theme's root directory and inlcude it in your theme's `funstions.php` file like so:
 
-	get_template_part( 'post-formats' );
+	require_once 'class-post-formats.php';
 
-Use this code in your `content-audio.php` file (for example):
+Then, use this code in your `content-audio.php` file, for example:
 
-	$post_format_media = wm_get_post_format_media();
+	$post_format_media = (string) {%= prefix_class %}_Post_Formats::get();
 
 	if ( 0 === strpos( $post_format_media, '[' ) ) {
 		$post_format_media = do_shortcode( $post_format_media );
@@ -56,9 +59,13 @@ Use this code in your `content-audio.php` file (for example):
 
 	echo $post_format_media;
 
+Do not forget to replace all development variables (the `{%= variable_name %}` string) with the actual values for your theme.
+
+
 ## Other notes
 
-Please note that this file does not register post formats for your theme. Register post formats in your theme according to WordPress Codex instructions:
+Please note that this file does not register no post format for your theme.
+You should register those in your theme according to WordPress Codex instructions:
 
 * http://codex.wordpress.org/Post_Formats#Adding_Theme_Support
 * http://codex.wordpress.org/Post_Formats
